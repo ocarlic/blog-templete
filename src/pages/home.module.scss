@@ -1,1 +1,35 @@
-// TODO
+.postContent {
+  list-style: none;
+
+  li {
+    padding: 3.5rem 0 0 0;
+
+
+    > :is(h2, p) {
+      padding: 0 0 0.5rem 0;
+    }
+
+    h2 {
+      color: var(--heading);
+
+      :hover {
+        color: var(--highlight);
+      }
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      color: var(--body);
+
+      time {
+        margin: 0 1.5rem 0 0;
+        color: var(--body)
+      }
+
+      svg {
+        margin: 0 0.5rem 0 0;
+      }
+    }
+  }
+}
