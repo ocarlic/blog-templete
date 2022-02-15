@@ -1,1 +1,38 @@
-// TODO
+.container {
+  img {
+    width: 100%;
+  }
+}
+
+.main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 4rem 2rem 3rem;
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    padding: 4rem 0 2rem 0;
+    font-size: 2.255rem;
+  }
+
+  em {
+    color: var(--highlight);
+  }
+}
+
+.info {
+  display: flex;
+
+  div {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 3rem 0 0;
+
+    span {
+      padding-left: 0.5rem;
+    }
+  }
+}
