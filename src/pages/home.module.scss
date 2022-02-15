@@ -1,9 +1,10 @@
 .postContent {
   list-style: none;
+  padding-bottom: 4rem;
 
   li {
     padding: 3.5rem 0 0 0;
-
+    cursor: pointer;
 
     > :is(h2, p) {
       padding: 0 0 0.5rem 0;
@@ -11,10 +12,6 @@
 
     h2 {
       color: var(--heading);
-
-      :hover {
-        color: var(--highlight);
-      }
     }
 
     span {
@@ -30,6 +27,17 @@
       svg {
         margin: 0 0.5rem 0 0;
       }
+    }
+  }
+
+  li:hover {
+    h2 {
+      color: var(--highlight);
+      transition: 0.3s linear;
+      -webkit-transition: 0.3s linear;
+      -moz-transition: 0.3s linear;
+      -ms-transition: 0.3s linear;
+      -o-transition: 0.3s linear;
     }
   }
 }
