@@ -1,0 +1,26 @@
+.wrapper {
+  cursor: pointer;
+
+  h3 {
+    color: var(--heading);
+    font-weight: 300;
+    padding-bottom: 0.5rem;
+  }
+
+  button {
+    color: var(--highlight);
+    background: transparent;
+    border: none;
+    font-weight: 600;
+  }
+
+  .nextPost {
+    float: right;
+  }
+
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: brightness(0.6);
+  }
+}
