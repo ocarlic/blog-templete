@@ -14,8 +14,15 @@ import styles from './post.module.scss';
 import commonStyles from '../../styles/common.module.scss';
 import { getPrismicClient } from '../../services/prismic';
 
+import Comments from '../../components/Comments';
+import PrevNextPost from '../../components/PrevNextPost';
+import Preview from '../../components/Preview';
+
 interface Post {
   first_publication_date: string | null;
+  last_publication_date: string | null;
+  id: string;
+  uid?: string;
   data: {
     title: string;
     banner: {
@@ -33,9 +40,17 @@ interface Post {
 
 interface PostProps {
   post: Post;
+  preview: boolean;
+  prevPost?: Post;
+  nextPost?: Post;
 }
 
-export default function Post({ post }: PostProps): JSX.Element {
+export default function Post({
+  post,
+  preview,
+  prevPost,
+  nextPost,
+}: PostProps): JSX.Element {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -57,6 +72,13 @@ export default function Post({ post }: PostProps): JSX.Element {
         locale: ptBR,
       }
     ),
+    last_publication_date: format(
+      new Date(post.last_publication_date),
+      "PP', às 'k':'m",
+      {
+        locale: ptBR,
+      }
+    ),
   };
 
   return (
@@ -64,6 +86,7 @@ export default function Post({ post }: PostProps): JSX.Element {
       <Head>
         <title>spacetraveling | {formattedPost.data.title}</title>
       </Head>
+
       <div className={styles.container}>
         <img
           src={formattedPost.data.banner.url ?? ''}
@@ -90,6 +113,10 @@ export default function Post({ post }: PostProps): JSX.Element {
                 <span>{timeToRead} min</span>
               </div>
             </div>
+
+            {post.last_publication_date !== post.first_publication_date && (
+              <p>* editado em {formattedPost.last_publication_date}</p>
+            )}
           </div>
 
           {formattedPost?.data?.content?.map(item => (
@@ -101,6 +128,32 @@ export default function Post({ post }: PostProps): JSX.Element {
             </article>
           ))}
         </main>
+
+        <hr className={styles.divider} />
+
+        <div className={styles.postsNavigation}>
+          {prevPost && (
+            <PrevNextPost
+              link={prevPost.uid}
+              title={prevPost.data.title}
+              next={false}
+            />
+          )}
+
+          {nextPost && (
+            <PrevNextPost
+              link={nextPost.uid}
+              title={nextPost.data.title}
+              next
+            />
+          )}
+        </div>
+
+        <div className={commonStyles.wrapper}>
+          <Comments />
+
+          {preview && <Preview />}
+        </div>
       </div>
     </>
   );
@@ -136,10 +189,28 @@ export const getStaticProps: GetStaticProps = async ({
     ref: previewData?.ref ?? null,
   })) as Post;
 
+  const prevPost = (
+    await prismic.query(Prismic.Predicates.at('document.type', 'posts'), {
+      pageSize: 1,
+      after: `${post.id}`,
+      orderings: '[document.first_publication_date desc]',
+    })
+  ).results[0];
+
+  const nextPost = (
+    await prismic.query(Prismic.Predicates.at('document.type', 'posts'), {
+      pageSize: 1,
+      after: `${post.id}`,
+      orderings: '[document.first_publication_date]',
+    })
+  ).results[0];
+
   return {
     props: {
       post,
       preview,
+      prevPost: prevPost ?? null,
+      nextPost: nextPost ?? null,
     },
     revalidate: 60 * 60, // 1 hora
   };

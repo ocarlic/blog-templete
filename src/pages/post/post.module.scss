@@ -36,3 +36,27 @@
     }
   }
 }
+
+.header {
+  p {
+    margin-top: 1.5rem;
+    color: var(--info);
+    font-weight: 100;
+    font-style: italic;
+  }
+}
+
+.divider {
+  max-width: 1120px;
+  margin: 0 auto;
+  border: 1px solid var(--body-light);
+}
+
+.postsNavigation {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+
+  display: flex;
+  justify-content: space-between;
+}
